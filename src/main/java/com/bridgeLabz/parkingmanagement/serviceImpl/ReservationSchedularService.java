@@ -32,4 +32,23 @@ public class ReservationSchedularService {
             reservationRepo.save(reservation);
         });
     }
+
+    @Scheduled(fixedRate = 60000)
+    public void checkNoShow() {
+        List<Reservation> noShowReservations = reservationRepo.findAll();
+        noShowReservations.forEach(reservation -> {
+            if(reservation.getStatus().equals("ACTIVE")
+                    && !reservation.getVehicleArrived()
+                    && reservation.getStartTime().isBefore(LocalTime.now().minusHours(1)))
+            {
+                    reservation.setStatus("NO SHOW");
+                    ParkingSlot parkingSlot = parkingSlotRepo.findById(reservation.getSlotId()).orElse(null);
+                    if (parkingSlot != null) {
+                        parkingSlot.setIsAvailable(true);
+                        parkingSlotRepo.save(parkingSlot);
+                    }
+                }
+            reservationRepo.save(reservation);
+        });
+    }
 }

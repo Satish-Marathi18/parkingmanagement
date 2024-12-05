@@ -58,19 +58,19 @@ public class ParkingSlotServiceImpl implements ParkingSlotService {
         }
         else {
             parkingSlot.setIsAvailable(false);
-            return mapToDTO(parkingSlot);
+            return mapToDTO(parkingSlotRepo.save(parkingSlot));
         }
     }
 
     @Override
     public ParkingSlotDTO releaseParkingSlot(Long slotNumber) {
         ParkingSlot parkingSlot = parkingSlotRepo.findBySlotNumber(slotNumber);
-        if(parkingSlot==null || !parkingSlot.getIsAvailable()) {
+        if(parkingSlot==null || parkingSlot.getIsAvailable()) {
             throw new SlotUnAvailableException("Slot number "+slotNumber+" does not exist");
         }
         else {
             parkingSlot.setIsAvailable(true);
-            return mapToDTO(parkingSlot);
+            return mapToDTO(parkingSlotRepo.save(parkingSlot));
         }
     }
 

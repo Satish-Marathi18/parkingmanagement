@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
-    private ReservationSchedularService reservationSchedularService;
     public UserController(UserService userService, ReservationSchedularService reservationSchedularService) {
         this.userService = userService;
-        this.reservationSchedularService = reservationSchedularService;
     }
 
     @PostMapping("/add")
@@ -25,13 +23,11 @@ public class UserController {
 
     @GetMapping("/userdetail/{userId}")
     public ResponseEntity<UserResponseDTO> getUserDetail(@PathVariable Long userId) {
-        reservationSchedularService.releaseExpireReservations();
         return new ResponseEntity<>(userService.getUserDetail(userId),HttpStatus.OK);
     }
 
     @PutMapping("/update/{userId}")
     public ResponseEntity<UserRequestDTO> updateUser(@RequestBody UserRequestDTO userRequestDTO, @PathVariable Long userId) {
-        reservationSchedularService.releaseExpireReservations();
         return new ResponseEntity<>(userService.updataUser(userRequestDTO,userId),HttpStatus.OK);
     }
 }

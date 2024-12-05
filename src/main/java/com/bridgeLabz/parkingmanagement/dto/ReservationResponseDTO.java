@@ -19,4 +19,5 @@ public class ReservationResponseDTO {
     private LocalTime endTime;
     private String status;
     private String vehicleType;
+    private boolean vehicleArrived;
 }

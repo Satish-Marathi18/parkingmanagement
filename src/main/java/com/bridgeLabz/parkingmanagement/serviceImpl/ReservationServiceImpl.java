@@ -57,6 +57,7 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setEndTime(reservationRequestDTO.getEndTime());
         reservation.setVehicleType(reservationRequestDTO.getVehicleType());
         reservation.setStatus("ACTIVE");
+        reservation.setVehicleArrived(false);
 
         Reservation savedReservation = reservationRepo.save(reservation);
 
@@ -87,6 +88,17 @@ public class ReservationServiceImpl implements ReservationService {
         return mapToDTOList(reservations);
     }
 
+    @Override
+    public ReservationResponseDTO arrive(Long reservationId) {
+        Reservation reservation = reservationRepo.findById(reservationId).orElseThrow(() -> new IllegalArgumentException("Invalid reservation ID."));
+        if(reservation.getStatus().equals("ACTIVE")) {
+            reservation.setVehicleArrived(true);
+            return mapToDTO(reservationRepo.save(reservation));
+        }
+        else
+            throw new IllegalStateException("Reservation status is not active.");
+    }
+
     private List<ReservationResponseDTO> mapToDTOList(List<Reservation> reservations) {
        return reservations.stream()
                 .map(reservation -> mapToDTO(reservation)).toList();
@@ -103,6 +115,7 @@ public class ReservationServiceImpl implements ReservationService {
         reservationDTO.setEndTime(reservation.getEndTime());
         reservationDTO.setVehicleType(reservation.getVehicleType());
         reservationDTO.setStatus(reservation.getStatus());
+        reservationDTO.setVehicleArrived(reservation.getVehicleArrived());
         return reservationDTO;
 
     }

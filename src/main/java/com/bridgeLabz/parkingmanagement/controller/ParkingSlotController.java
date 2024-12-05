@@ -14,39 +14,32 @@ import java.util.Map;
 @RequestMapping("/parkingslot")
 public class ParkingSlotController {
     private final ParkingSlotService parkingSlotService;
-    private ReservationSchedularService reservationSchedularService;
     public ParkingSlotController(ParkingSlotService parkingSlotService, ReservationSchedularService reservationSchedularService) {
         this.parkingSlotService = parkingSlotService;
-        this.reservationSchedularService = reservationSchedularService;
     }
 
     @PostMapping("/addslot")
     public ResponseEntity<ParkingSlotDTO> addParkingSlot(@RequestBody ParkingSlotDTO parkingSlotDTO) {
-        reservationSchedularService.releaseExpireReservations();
         return new ResponseEntity<>(parkingSlotService.addParkingSlot(parkingSlotDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/filter")
     public ResponseEntity<List<ParkingSlotDTO>> filterParkingSlotsByVehicleType() {
-        reservationSchedularService.releaseExpireReservations();
         return new ResponseEntity<>(parkingSlotService.filterParkingSlotsByVehicleType(),HttpStatus.OK);
     }
 
     @GetMapping("/getstatus")
     public ResponseEntity<Map<Long,String>> getStatus() {
-        reservationSchedularService.releaseExpireReservations();
         return new ResponseEntity<>(parkingSlotService.getStatus(),HttpStatus.OK);
     }
 
     @PostMapping("/reserve/{slotNumber}")
     public ResponseEntity<ParkingSlotDTO> reserveParkingSlot(@PathVariable Long slotNumber) {
-        reservationSchedularService.releaseExpireReservations();
         return new ResponseEntity<>(parkingSlotService.reserveParkingSlot(slotNumber),HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/release/{slotNumber}")
     public ResponseEntity<ParkingSlotDTO> releaseParkingSlot(@PathVariable Long slotNumber) {
-        reservationSchedularService.releaseExpireReservations();
         return new ResponseEntity<>(parkingSlotService.releaseParkingSlot(slotNumber),HttpStatus.ACCEPTED);
     }
 }

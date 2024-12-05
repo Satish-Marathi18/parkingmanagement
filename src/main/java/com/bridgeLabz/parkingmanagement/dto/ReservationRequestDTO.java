@@ -18,7 +18,7 @@ public class ReservationRequestDTO {
     private Long slotId;
     @Pattern(regexp = "^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$", message = "Correct the vehicle number format")
     private String vehicleNumber;
-    @PastOrPresent(message = "Start time should be past or present")
+    @FutureOrPresent(message = "Start time should be future or present")
     private LocalTime startTime;
     @Future(message = "End time should be future")
     private LocalTime endTime;

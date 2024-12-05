@@ -23,10 +23,16 @@ public class Reservation {
     private LocalTime endTime;
     private String status;
     private String vehicleType;
+    private boolean vehicleArrived;
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private User user;
     @OneToOne(mappedBy = "reservation", fetch = FetchType.LAZY)
     @JsonIgnore
     private Bill bill;
+
+
+    public boolean getVehicleArrived() {
+        return vehicleArrived;
+    }
 }

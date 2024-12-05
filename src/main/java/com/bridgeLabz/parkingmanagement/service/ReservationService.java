@@ -12,4 +12,6 @@ public interface ReservationService {
     ReservationResponseDTO cancelReservation(Long reservationId);
 
     List<ReservationResponseDTO> getAllReservations(Long userId);
+
+    ReservationResponseDTO arrive(Long slotId);
 }
