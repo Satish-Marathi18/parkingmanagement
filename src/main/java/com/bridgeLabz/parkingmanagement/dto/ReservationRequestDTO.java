@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
@@ -19,8 +20,8 @@ public class ReservationRequestDTO {
     @Pattern(regexp = "^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$", message = "Correct the vehicle number format")
     private String vehicleNumber;
     @FutureOrPresent(message = "Start time should be future or present")
-    private LocalTime startTime;
+    private LocalDateTime startTime;
     @Future(message = "End time should be future")
-    private LocalTime endTime;
+    private LocalDateTime endTime;
     private String vehicleType;
 }

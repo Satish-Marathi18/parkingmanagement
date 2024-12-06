@@ -7,6 +7,7 @@ import com.bridgeLabz.parkingmanagement.repo.ReservationRepo;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ReservationSchedularService {
 
     @Scheduled(fixedRate = 60000)
     public void releaseExpireReservations() {
-        List<Reservation> expiredReservations = reservationRepo.findByEndTimeBeforeAndStatus(LocalTime.now(),"ACTIVE");
+        List<Reservation> expiredReservations = reservationRepo.findByEndTimeBeforeAndStatus(LocalDateTime.now(),"ACTIVE");
         expiredReservations.forEach(reservation -> {
             reservation.setStatus("COMPLETED");
             ParkingSlot parkingSlot = parkingSlotRepo.findById(reservation.getSlotId()).orElse(null);
@@ -39,7 +40,7 @@ public class ReservationSchedularService {
         noShowReservations.forEach(reservation -> {
             if(reservation.getStatus().equals("ACTIVE")
                     && !reservation.getVehicleArrived()
-                    && reservation.getStartTime().isBefore(LocalTime.now().minusHours(1)))
+                    && reservation.getStartTime().isBefore(LocalDateTime.now().minusHours(1)))
             {
                     reservation.setStatus("NO SHOW");
                     ParkingSlot parkingSlot = parkingSlotRepo.findById(reservation.getSlotId()).orElse(null);

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -19,8 +20,8 @@ public class Reservation {
     @Column(insertable=true, updatable=true)
     private Long slotId;
     private String vehicleNumber;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String status;
     private String vehicleType;
     private boolean vehicleArrived;

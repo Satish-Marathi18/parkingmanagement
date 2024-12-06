@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
@@ -15,8 +16,8 @@ public class ReservationResponseDTO {
     private Long userId;
     private Long slotId;
     private String vehicleNumber;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String status;
     private String vehicleType;
     private boolean vehicleArrived;

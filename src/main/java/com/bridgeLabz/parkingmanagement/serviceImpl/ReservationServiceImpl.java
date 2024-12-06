@@ -76,6 +76,7 @@ public class ReservationServiceImpl implements ReservationService {
         if(reservation.getStatus().equals("ACTIVE") && !slot.getIsAvailable()) {
             reservation.setStatus("CANCELLED");
             slot.setIsAvailable(true);
+            parkingSlotRepo.save(slot);
         }
         Reservation savedReservation = reservationRepo.save(reservation);
         return mapToDTO(savedReservation);
